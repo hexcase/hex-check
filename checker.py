@@ -5,8 +5,9 @@ import argparse
 
 
 parser= argparse.ArgumentParser(description='Verify if a list of url are valid, return their status code, and return their headers in a json')
-parser.add_argument('-f', '--file', type=str, metavar='', required=True, help='The list of files you want to check')
+parser.add_argument('-f', '--file', metavar='', type=str, required=True, help='The list of files you want to check')
 parser.add_argument('-q', '--quiet', action='store_true',  help='No outputs, useful for when you only want the output exported to JSON')
+parser.add_argument('-o', '--output', type=str, help='Give a file name to output the json file')
 
 args = parser.parse_args()
 
@@ -23,14 +24,18 @@ httperror = {
 def checkr(url):
     
     r = requests.get(url, allow_redirects=False)
-    
-    # Format the JSON output
-    fulllist = {
-            "url": url,
-            "status_code": r.status_code,
-            "header": dict(r.headers),
-            }
-    jscon = json.dumps(dict(fulllist), indent=2)
+    if args.output:
+        of = open(args.output, "a")
+        
+        # Format the JSON output
+        fulllist = {
+                "url": url,
+                "status_code": r.status_code,
+                "header": dict(r.headers),
+                }
+        jscon = json.dumps(dict(fulllist), indent=2)
+        of.write(jscon)
+        of.close()
     if not args.quiet:
         v = str(r.status_code)
         print(url, r.status_code, httperror[int(v[0])])

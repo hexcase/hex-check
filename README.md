@@ -1,5 +1,5 @@
 # Hex-check
-## A URL validator
+### A URL validator
 
 Hex-check is a simple url validator that takes a list of url as an input, returns the status code and parse both the status code and the header response in a json file.
 

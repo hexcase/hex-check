@@ -7,7 +7,7 @@ import argparse
 parser= argparse.ArgumentParser(description='Verify if a list of url are valid, return their status code, and return their headers in a json')
 parser.add_argument('-f', '--file', metavar='', type=str, required=True, help='The list of files you want to check')
 parser.add_argument('-q', '--quiet', action='store_true',  help='No outputs, useful for when you only want the output exported to JSON')
-parser.add_argument('-o', '--output', type=str, help='Give a file name to output the json file')
+parser.add_argument('-o', '--output', metavar='', type=str, help='Give a file name to output the json file')
 
 args = parser.parse_args()
 

@@ -2,7 +2,7 @@
 A collection of small hacking tool I've built
 
 ## [Hexcheck.py](#)
-### A URL Validator
+### :heavy_check_mark: A URL Validator
 
 Requirements: *requests*
 
@@ -20,7 +20,7 @@ optional arguments:
   -o , --output   Give a file name to output the json file
 ```
 ## [Hexinject.py](#)
-### A simple URL wordlist injector
+### :syringe: A simple URL wordlist injector
 
 Requirements: *requests*
 

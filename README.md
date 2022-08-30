@@ -1,7 +1,7 @@
-# [Hexhacks](#)
+# Hexhacks
 A collection of small hacking tool I've built
 
-## Hexcheck.py
+## [Hexcheck.py](#)
 ### A URL Validator
 
 Requirements: *requests*
@@ -19,7 +19,7 @@ optional arguments:
   -q, --quiet     No outputs, useful for when you only want the output exported to JSON
   -o , --output   Give a file name to output the json file
 ```
-## Hexinject.py
+## [Hexinject.py](#)
 ### A simple URL wordlist injector
 
 Requirements: *requests*

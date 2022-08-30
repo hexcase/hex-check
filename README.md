@@ -1,5 +1,10 @@
-# Hex-check
-### A URL validator
+# Hexhacks
+A collection of small hacking tool I've built
+
+##Checker.py
+### A URL Validator
+
+Requirements: *requests*
 
 Hex-check is a simple url validator that takes a list of url as an input, returns the status code and parse both the status code and the header response in a json file.
 

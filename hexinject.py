@@ -1,9 +1,8 @@
-
-
+#!/usr/bin/env python3
 import requests
 import argparse
 import json
-
+import threading
 
 ############### Argparse stuff ###############
 
@@ -22,18 +21,24 @@ args = parser.parse_args()
 
 
 file1 = open(args.file, 'r')
-lines = file1.readlines()
+flines = file1.readlines()
 
-
-
-for line in lines:
+def lineprocess(line):
     r2 = requests.get(args.url %(line.strip()))
     print(args.url %(line.strip()))
-    
+    print("Response Length: ", len(r2.text))
+    print("Header Length: ", len(r2.headers))
     if args.statuscode:
         print(r2.status_code)
     if args.header:
         print(json.dumps(dict(r2.headers), indent=2))
     if args.nohtml != True:
         print(r2.text)
+
+for rline in flines:
+    t  = threading.Thread(target=lineprocess, args=(rline,))
+    t.start()
+
+
+
 

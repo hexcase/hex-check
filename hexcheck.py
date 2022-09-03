@@ -1,16 +1,15 @@
+#!/usr/bin/env python3
 
-import json
 import requests
 import argparse
+import json
+import threading
 
-
-parser= argparse.ArgumentParser(description='Verify if a list of url are valid, return their status code, and return their headers in a json')
+parser = argparse.ArgumentParser(description='Verifies that a list of URLs are valid URLs, return their status codes, their headers and writes it to a JSON file.')
 parser.add_argument('-f', '--file', metavar='', type=str, required=True, help='The list of files you want to check')
-parser.add_argument('-q', '--quiet', action='store_true',  help='No outputs, useful for when you only want the output exported to JSON')
-parser.add_argument('-o', '--output', metavar='', type=str, help='Give a file name to output the json file')
-
+parser.add_argument('-o', '--output', metavar='', type=str, help='Give a filename to output the json file')
+parser.add_argument('-q', '--quiet', action='store_true', help='No CLI output, useful for when you only want the output exported to JSON')
 args = parser.parse_args()
-
 
 httperror = {
         1: "Informational Response",
@@ -21,43 +20,50 @@ httperror = {
 }
 
 
-def checkr(url):
-    
-    r = requests.get(url, allow_redirects=False)
-    if args.output:
-        of = open(args.output, "a")
-        
-        # Format the JSON output
-        fulllist = {
-                "url": url,
-                "status_code": r.status_code,
-                "header": dict(r.headers),
-                }
-        jscon = json.dumps(dict(fulllist), indent=2)
-        of.write(jscon)
-        of.close()
-    if not args.quiet:
-        v = str(r.status_code)
-        print(url, r.status_code, httperror[int(v[0])])
+def req(url):
+    try:
+        r = requests.get(url, allow_redirects=False)
+    except:
+        if args.output:
+            of = open(args.output, 'a')
+            fulllist = {
+                    'url': url,
+                    'status_code': 404,
+                    }
+            jscon = json.dumps(dict(fulllist), indent=2)
+            of.write(jscon)
+            of.write('\n')
+            of.close()
+        if args.quiet != True: 
+            print(url, 'Unhandled 404', httperror[4])
 
-########## End of checkr ###########
+    else:
+        if args.output:
+            of = open(args.output, 'a')
+            fulllist = {
+                    'url': url,
+                    'status_code': 404,
+                    'header': dict(r.headers),
+                    }
+            jscon = json.dumps(dict(fulllist), indent=2)
+            of.write(jscon)
+            of.write('\n')
+            of.close()
+        if args.quiet != True:    
+            sc = str(r.status_code)
+            print(url, " ", sc, httperror[int(sc[0])] )
 
-def readlist(inlist):
-    
-    file1 = open(inlist, 'r')
-    lines = file1.readlines()
-    
-    for line in lines:
-        if (line.strip()[0:7] == "http://" or line.strip()[0:8] == "https://"): 
-            inl = line.strip()
-        else:
-            inl = "http://" + line.strip() 
-        checkr(inl)
-########## End of readlist ########## 
+def urlcleaner(line):
+    if (line.strip().lower()[0:7] == "http://" or line.strip().lower()[0:8] == "https://"):
+        req(line.strip().lower())
+    else:
+        req("https://" + line.strip().lower())
 
 
-if __name__ == '__main__':
 
-    readlist(args.file)
+file1 = open(args.file, 'r')
+lines = file1.readlines()
 
-
+for line in lines:
+    t = threading.Thread(target=urlcleaner, args=(line,))
+    t.start()

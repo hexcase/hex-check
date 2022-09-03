@@ -9,15 +9,16 @@ Requirements: *requests*
 Hex-check is a simple url validator that takes a list of url as an input, returns the status code and parse both the status code and the header response in a json file.
 
 ```
-usage: checker.py [-h] -f  [-q] [-o]
+usage: hexcheck.py [-h] -f  [-o] [-q]
 
-Verify if a list of url are valid, return their status code, and return their headers in a json
+Verifies that a list of URLs are valid URLs, return their status codes, their headers and writes it to a JSON file.
 
 optional arguments:
   -h, --help      show this help message and exit
   -f , --file     The list of files you want to check
-  -q, --quiet     No outputs, useful for when you only want the output exported to JSON
-  -o , --output   Give a file name to output the json file
+  -o , --output   Give a filename to output the json file
+  -q, --quiet     No CLI output, useful for when you only want the output exported to JSON
+
 ```
 ## [Hexinject.py](#)
 ### :syringe: A simple URL wordlist injector

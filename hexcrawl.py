@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
 ###### Hardcoded variables to be parsed
-url = "https://getpocket.com/"
+url = "https://ENTER URL HERE/"
 numth = 10
 attempts = 3 # For threading, attemps before closing thread
 sleeptime = 3 # in seconds
